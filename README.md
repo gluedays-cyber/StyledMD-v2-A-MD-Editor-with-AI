@@ -1,6 +1,6 @@
 # StyledMD v2
 
-Windows 전용 마크다운 에디터. Go 백엔드와 WebView2(Chromium) 기반 프론트엔드로 구성된 단일 실행 파일(`StyledMD.exe`)로 배포된다. 에디터(Monaco)와 렌더러(marked.js)를 내장하며, 다수의 AI 공급자와의 스트리밍 대화 기능을 갖춘다.
+Windows 전용 마크다운 에디터. Go 백엔드와 WebView2(Chromium) 기반 프론트엔드로 구성된 단일 실행 파일(`StyledMD.exe.zip`)으로 배포된다. 에디터(Monaco)와 렌더러(marked.js)를 내장하며, 다수의 AI 공급자와의 스트리밍 대화 기능을 갖춘다.
 
 ![StyledMD Screenshot](./StyledMD_ScreenShot.jpg)
 
