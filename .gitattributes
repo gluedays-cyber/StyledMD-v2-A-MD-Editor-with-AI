@@ -1,0 +1,9 @@
+# Go를 제외한 모든 주요 웹 확장자를 통계에서 제외
+*.html linguist-vendored
+*.css linguist-vendored
+*.js linguist-vendored
+*.ts linguist-vendored
+*.json linguist-vendored
+
+# 프론트엔드 폴더 전체를 구조적으로 제외
+frontend/* linguist-vendored
