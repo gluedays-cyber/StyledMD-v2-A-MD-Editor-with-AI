@@ -37,6 +37,7 @@ export function setupEditor() {
             lineNumbersMinChars: 0,
             readOnly: false,
             padding: { top: 10 },
+            scrollBeyondLastLine: false,
             guides: {
                 bracketPairs: false,
                 bracketPairsHorizontal: false,
@@ -168,7 +169,7 @@ export function setupEditor() {
             if (!state.editorInstance) return;
             const previewScrollHeight = preview.scrollHeight - preview.clientHeight;
             if (previewScrollHeight <= 0) return;
-            const scrollPercentage = (preview.scrollTop / previewScrollHeight) * 0.95;
+            const scrollPercentage = preview.scrollTop / previewScrollHeight;
             const editorScrollHeight = state.editorInstance.getScrollHeight() - state.editorInstance.getLayoutInfo().height;
             if (editorScrollHeight <= 0) return;
             state.editorInstance.setScrollTop(editorScrollHeight * scrollPercentage);
