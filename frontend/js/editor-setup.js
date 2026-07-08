@@ -149,11 +149,14 @@ export function setupEditor() {
             if (readToggleBtn) readToggleBtn.textContent = '📖 읽기';
         }
 
-        fetch('/api/resize', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ width: initWidth, height: 960 })
-        }).catch(err => console.error("초기 창 크기 설정 실패:", err));
+        if (!sessionStorage.getItem('window-initialized')) {
+            fetch('/api/resize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ width: initWidth, height: 960 })
+            }).catch(err => console.error("초기 창 크기 설정 실패:", err));
+            sessionStorage.setItem('window-initialized', 'true');
+        }
 
         loadDocument();
     });
