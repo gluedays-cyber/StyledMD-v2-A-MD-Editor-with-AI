@@ -155,6 +155,8 @@ type MONITORINFO struct {
 	DwFlags   uint32
 }
 
+var isFirstResize = true
+
 func resizeWindowOnScreen(width, height int) {
 	hwnd := Wv.Window()
 	if hwnd == nil {
@@ -238,6 +240,12 @@ func resizeWindowOnScreen(width, height int) {
 		if newTop < workArea.Top {
 			newTop = workArea.Top
 		}
+	}
+
+	if isFirstResize {
+		newLeft = workArea.Left + ((workArea.Right - workArea.Left - newWidth) / 2)
+		newTop = workArea.Top + ((workArea.Bottom - workArea.Top - newHeight) / 2)
+		isFirstResize = false
 	}
 
 	// 창 표출 전에 WS_EX_LAYERED 스타일(투명도) 제거하여 정상 상태로 복구
