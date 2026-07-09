@@ -40,6 +40,7 @@
                     <a href="#" id="menu-insert-important">Important 추가</a>
                 </div>
             </div>
+            <button class="dropdown-btn" type="button" id="help-btn" style="font-weight: bold; ">도움말</button>
         </div>
         <span class="file-name"></span>
         <div class="btn-container">
@@ -54,7 +55,55 @@
         </div>
     </div>
 
+    <!-- 도움말 모달 -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content" style="width: 550px; max-height: 80vh; display: flex; flex-direction: column;">
+            <div class="modal-header">
+                <h2>도움말</h2>
+                <span class="modal-close" id="help-modal-close">&times;</span>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; flex: 1; padding: 16px; font-size: 14px; line-height: 1.6;">
+                <h3 style="margin-top: 0;">1. 마크다운(Markdown) 기본 태그</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+                    <tr><th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5; text-align: center;">태그</th><th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5; text-align: left;">설명</th><th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5; text-align: left;">예시</th></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code># 제목</code></td><td style="border: 1px solid #ddd; padding: 8px;">H1 제목 (1~6개까지 가능)</td><td style="border: 1px solid #ddd; padding: 8px;"><h1 style="margin:0; font-size: 18px; color: #000;">제목</h1></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>**굵게**</code></td><td style="border: 1px solid #ddd; padding: 8px;">텍스트 굵게</td><td style="border: 1px solid #ddd; padding: 8px;"><b style="color: #000;">굵게</b></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>*기울임*</code></td><td style="border: 1px solid #ddd; padding: 8px;">텍스트 기울임</td><td style="border: 1px solid #ddd; padding: 8px;"><i style="color: #000;">기울임</i></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>[텍스트](링크)</code></td><td style="border: 1px solid #ddd; padding: 8px;">하이퍼링크</td><td style="border: 1px solid #ddd; padding: 8px;"><a href="#" style="color:#0070c9; text-decoration: underline;">텍스트</a></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>![대체](경로)</code></td><td style="border: 1px solid #ddd; padding: 8px;">이미지 삽입</td><td style="border: 1px solid #ddd; padding: 8px; color: #000;">이미지</td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>- 항목</code></td><td style="border: 1px solid #ddd; padding: 8px;">순서 없는 목록</td><td style="border: 1px solid #ddd; padding: 8px; color: #000;"><ul style="margin:0; padding-left:20px;"><li>항목</li></ul></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>1. 항목</code></td><td style="border: 1px solid #ddd; padding: 8px;">순서 있는 목록</td><td style="border: 1px solid #ddd; padding: 8px; color: #000;"><ol style="margin:0; padding-left:20px;"><li>항목</li></ol></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>`코드`</code></td><td style="border: 1px solid #ddd; padding: 8px;">인라인 코드</td><td style="border: 1px solid #ddd; padding: 8px;"><code style="background:#eee;padding:2px 4px;border-radius:3px; color: #000;">코드</code></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>```<br>코드<br>```</code></td><td style="border: 1px solid #ddd; padding: 8px;">코드 블록</td><td style="border: 1px solid #ddd; padding: 8px;"><pre style="margin:0; padding:4px; background:#f5f5f5; color: #000;">코드</pre></td></tr>
+                </table>
 
+                <h3>2. StyledMD 추가 태그</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px;">
+                    <tr><th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5; text-align: center;">태그</th><th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5; text-align: left;">설명</th><th style="border: 1px solid #ddd; padding: 8px; background: #f5f5f5; text-align: left;">예시</th></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>[텍스트]{color:색상 bg:배경색}</code></td><td style="border: 1px solid #ddd; padding: 8px;">선택부분에 색넣기</td><td style="border: 1px solid #ddd; padding: 8px;"><span style="color:red; background-color:yellow;">텍스트</span></td></tr>
+                    <tr><td style="border: 1px solid #ddd; padding: 8px; text-align: center;"><code>||</code> (줄 맨 앞)</td><td style="border: 1px solid #ddd; padding: 8px;">줄바꾸기 (강제 개행)</td><td style="border: 1px solid #ddd; padding: 8px;">위 줄<br>아래 줄</td></tr>
+                </table>
+
+                <h3>3. 콜아웃 (Callout)</h3>
+                <p style="margin-bottom: 12px; color: #555;">본 앱에서는 다음과 같은 콜아웃(Callout) 블록을 지원합니다.</p>
+                <div style="border-left: 4px solid #068920; background: #c6e1cc; padding: 10px; margin-bottom: 10px; border-radius: 4px; color: #000;">
+                    <strong style="color: #006f16; display: block; margin-bottom: 4px;">> [!tip]</strong>Tip 내용을 작성합니다.
+                </div>
+                <div style="border-left: 4px solid #f01c00; background: #dcc3bd; padding: 10px; margin-bottom: 10px; border-radius: 4px; color: #000;">
+                    <strong style="color: #940202; display: block; margin-bottom: 4px;">> [!warning]</strong>Warning 내용을 작성합니다.
+                </div>
+                <div style="border-left: 4px solid #770182; background: #f7d3e6; padding: 10px; margin-bottom: 10px; border-radius: 4px; color: #000;">
+                    <strong style="color: #820059; display: block; margin-bottom: 4px;">> [!question]</strong>Question 내용을 작성합니다.
+                </div>
+                <div style="border-left: 4px solid #afad00; background: #dcd497; padding: 10px; margin-bottom: 10px; border-radius: 4px; color: #000;">
+                    <strong style="color: #7e6500; display: block; margin-bottom: 4px;">> [!important]</strong>Important 내용을 작성합니다.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="modal-btn confirm-btn" id="help-modal-ok">확인</button>
+            </div>
+        </div>
+    </div>
 
     <!-- 새 문서 추가 모달 -->
     <div id="new-doc-modal" class="modal">

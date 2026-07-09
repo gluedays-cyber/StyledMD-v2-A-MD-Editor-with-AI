@@ -45,7 +45,14 @@ export function setupEditor() {
                 indentation: false,
                 highlightActiveIndentation: false
             },
-            renderLineHighlight: 'none'
+            renderLineHighlight: 'none',
+            overviewRulerBorder: false,
+            overviewRulerLanes: 0,
+            hideCursorInOverviewRuler: true,
+            scrollbar: {
+                vertical: 'hidden',
+                horizontal: 'hidden'
+            }
         });
 
         state.editorInstance.updateOptions({ lineNumbers: 'off' });
@@ -161,9 +168,16 @@ export function setupEditor() {
         loadDocument();
     });
 
+    let resizeTimeout;
     window.addEventListener('resize', () => {
         if (state.editorInstance) {
-            state.editorInstance.layout();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                if (state.editorInstance) state.editorInstance.layout();
+                setTimeout(() => {
+                    if (state.editorInstance) state.editorInstance.layout();
+                }, 50);
+            }, 100);
         }
     });
 

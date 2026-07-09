@@ -196,6 +196,24 @@ export function setupUIModals() {
         });
     }
 
+    // 도움말 모달 로직
+    const helpBtn = document.getElementById('help-btn');
+    const helpModal = document.getElementById('help-modal');
+    const helpModalClose = document.getElementById('help-modal-close');
+    const helpModalOk = document.getElementById('help-modal-ok');
+
+    function closeHelpModal() { if (helpModal) helpModal.classList.remove('show'); }
+    if (helpBtn) {
+        helpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dropdowns.forEach(d => d.classList.remove('show'));
+            if (helpModal) helpModal.classList.add('show');
+        });
+    }
+    if (helpModalClose) helpModalClose.addEventListener('click', closeHelpModal);
+    if (helpModalOk) helpModalOk.addEventListener('click', closeHelpModal);
+    if (helpModal) helpModal.addEventListener('click', (e) => { if (e.target === helpModal) closeHelpModal(); });
+
     window.addEventListener('keydown', (e) => {
         const isCtrl = e.ctrlKey || e.metaKey;
         const key = e.key.toLowerCase();

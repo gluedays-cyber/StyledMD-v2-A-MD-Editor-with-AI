@@ -1,7 +1,6 @@
 package main
 
 import (
-	"time"
 	"embed"
 	"fmt"
 	"io/fs"
@@ -13,6 +12,7 @@ import (
 	"strings"
 	"styledmd/pkg"
 	"syscall"
+	"time"
 	"unsafe"
 
 	"github.com/jchv/go-webview2"
@@ -72,7 +72,7 @@ func main() {
 			w.Header().Set("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
 			w.Header().Set("Pragma", "no-cache")
 			w.Header().Set("Expires", "0")
-			
+
 			subFS, _ := fs.Sub(frontendFS, "frontend")
 			fsrv := http.FileServer(http.FS(subFS))
 			http.StripPrefix("/.app/", fsrv).ServeHTTP(w, r)
@@ -180,11 +180,11 @@ func main() {
 		Debug:     true,
 		AutoFocus: true,
 		WindowOptions: webview2.WindowOptions{
-			Title:  "StyledMD - 마크다운 편집기 (Ctrl+. 으로 인공지능 대화창을 연다.)",
+			Title:  "StyledMD - 마크다운 편집기 (Ctrl+. 으로 인공지능 대화창을 열 수 있습니다.)",
 			Width:  640,
 			Height: 960,
 			IconId: 1,
-			Hidden: true,
+			Hidden: true, // <==== 윈도우 초기화과정에 창을 숨김
 		},
 	})
 	wv = w
@@ -194,6 +194,7 @@ func main() {
 	hwnd := w.Window() // 창 핸들(HWND)을 가져온다.
 	if hwnd != nil {
 		user32 := syscall.NewLazyDLL("user32.dll")
+
 		// 데스크탑 화면의 작업 영역(Work Area) 기준 우측 상단 정렬
 		monitorFromWindow := user32.NewProc("MonitorFromWindow")
 		getMonitorInfoW := user32.NewProc("GetMonitorInfoW")
@@ -210,11 +211,9 @@ func main() {
 		width := int32(640)
 		height := int32(960)
 
-		// Windows 10/11의 투명 그림자 테두리(7px)를 보정하여 화면 우측 가장자리에 완전히 밀착시킨다.
-		const borderOffset = 7
-		newLeft := workArea.Right - width + borderOffset
-		newTop := workArea.Top
-
+		// 중앙 좌표 산출 (좌측 상단 기준 좌표 + 여백 절반)
+		newLeft := workArea.Left + ((workArea.Right - workArea.Left - width) / 2)
+		newTop := workArea.Top + ((workArea.Bottom - workArea.Top - height) / 2)
 
 		// 3. 보이지 않는 상태에서 크기와 위치를 정밀하게 설정하고 프레임을 갱신한다. (SWP_NOZORDER = 0x0004 | SWP_FRAMECHANGED = 0x0020 -> 0x0024)
 		setWindowPos.Call(
@@ -224,7 +223,7 @@ func main() {
 			uintptr(newTop),
 			uintptr(width),
 			uintptr(height),
-			0x0024,
+			0x0064,
 		)
 
 		// 4. 배치가 완전히 끝난 시점에 비로소 창과 브라우저 컴포넌트를 화면에 표시한다. (표준 패키지 사용 시 자동 표출됨)
